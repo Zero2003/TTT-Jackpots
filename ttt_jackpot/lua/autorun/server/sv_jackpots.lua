@@ -1,18 +1,19 @@
 util.AddNetworkString("jackpot_start");
 util.AddNetworkString("jackpot_over");
 util.AddNetworkString("jackpot_no_winner");
+util.AddNetworkString("ttt_jackpots_info");
 include("jackpot_config.lua");
 
 local prefix = "[JACKPOT]: "
-local count = count or 0
-local jackpotround = jackpotround or false
-local jackpot_divide = jackpot_divide or 0
-local jackpot_last_proper_kill = jackpot_last_proper_kill or nil
+local count = count || 0
+local jackpotround = jackpotround || false
+local jackpot_divide = jackpot_divide || 0
+local jackpot_last_proper_kill = jackpot_last_proper_kill || nil
 
 if !file.Exists("ttt_jackpot_wins.txt", "DATA") then
     if SERVER then
         print("Performing first time installation of ttt_jackpots...")
-        file.Append("ttt_jackpot_wins.txt", "This file will only be used if jackpot_server_log_to_file = true in jackpot_config.lua\n")
+        file.Append("ttt_jackpot_wins.txt", "This file will only be used if jackpot_server_log_to_file is set to true in jackpot_config.lua\n")
     end
 end
 
@@ -159,4 +160,12 @@ hook.Add("TTTPrepareRound", "jackpot_over", function ()
 	net.Start("jackpot_over")
 		net.WriteBool(tobool(jackpot_developer_mode))
 	net.Broadcast()
+end);
+
+net.Receive("ttt_jackpots_info", function (_, ply)
+    net.Start("ttt_jackpots_info")
+        net.WriteString(tostring(jackpot_version))
+        net.WriteString(tostring(jackpot_dateupdated))
+        net.WriteString("https://github.com/Zero2003/TTT-Jackpots")
+    net.Send(ply)
 end);

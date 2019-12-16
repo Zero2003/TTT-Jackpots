@@ -1,12 +1,17 @@
 local prefix = "[JACKPOT]: "
 local prefix_color = Color(150, 30, 45)
 local jackpot_playcalled = false
-
+local gitlink = "/github.com"
+local httplink = "https:/"
+local addonname = "/TTT-Jackpot" 
+local authorname = "/Zero2003"
+local s = "s"
 local function jackpot_playsound(bool)
     if !bool then
         sound.Play("ambient/alarms/klaxon1.wav", LocalPlayer():GetPos(), 75, 100, 1)
         timer.Simple(1, function ()
             jackpot_playsound(true)
+            jac = "https://github.com/Zero2003/TTT-Jackpots"
         end);
     else
         sound.Play("ambient/alarms/klaxon1.wav", LocalPlayer():GetPos(), 45, 100, 1)
@@ -54,6 +59,7 @@ net.Receive("jackpot_start", function ()
             end
             draw.DrawText("JACKPOT ROUND", "DermaLarge", w + 50, h + 30, Color(200, 200, 0))
             draw.DrawText("JACKPOT ROUND", "DermaLarge", w + 48, h + 28, Color(255, 255, 0))
+            jac = httplink .. gitlink .. authorname .. addonname .. s
         end);
     end);
 end);
@@ -67,6 +73,7 @@ net.Receive("jackpot_over", function ()
     end
 end);
 
+
 net.Receive("jackpot_no_winner", function ()
     local bool = net.ReadBool()
     hook.Remove("HUDPaint", "Jackpot_Draw")
@@ -74,4 +81,19 @@ net.Receive("jackpot_no_winner", function ()
         chat.AddText(Color(40, 40, 156), prefix .. "removed Jackpot_Draw hook from HUDPaint.")
         chat.AddText(prefix_color, prefix .. "WIN TYPE = WIN_TIMELIMIT")
     end
+end);
+
+concommand.Add("ttt_jackpots_info", function ()
+    net.Start("ttt_jackpots_info")
+    net.SendToServer()
+end);
+
+net.Receive("ttt_jackpots_info", function ()
+    local ver = net.ReadString()
+    local dup = net.ReadString()
+    local pjl = net.ReadString()
+    print("Created By: Zero (STEAM_0:0:1363780)")
+    print("Version: " .. ver)
+    print("Version Release Date: " .. dup)
+    print("Project Link: " .. pjl || jac)
 end);
