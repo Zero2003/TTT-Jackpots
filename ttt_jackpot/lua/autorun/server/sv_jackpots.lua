@@ -83,9 +83,9 @@ hook.Add("TTTEndRound", "jackpot_win", function (r)
                             return;
                         end
                         if istraitor then
-                            file.Append("ttt_jackpot_wins.txt", "[" .. os.time() .. "] " .. v:Nick() .. " (TRAITOR) won " .. amount .. ".\n")
+                            file.Append("ttt_jackpot_wins.txt", "[" .. os.date("%c", os.time()) .. "] " .. v:Nick() .. " (TRAITOR) won " .. amount .. ".\n")
                         elseif !istraitor then
-                            file.Append("ttt_jackpot_wins.txt", "[" .. os.time() .. "] " .. v:Nick() .. " (INNOCENT) won " .. amount .. ".\n")
+                            file.Append("ttt_jackpot_wins.txt", "[" .. os.date("%c", os.time()) .. "] " .. v:Nick() .. " (INNOCENT) won " .. amount .. ".\n")
                         end
                     elseif jackpot_server_log_to_file && jackpot_server_log_to_file then
                         local istraitor = v:IsTraitor()
@@ -95,10 +95,10 @@ hook.Add("TTTEndRound", "jackpot_win", function (r)
                         end
                         if istraitor then
                             ServerLog("[" .. os.date() .. "] " .. v:Nick() .. " (TRAITOR) won " .. amount .. ".")
-                            file.Append("ttt_jackpot_wins.txt", "[" .. os.time() .. "] " .. v:Nick() .. " (TRAITOR) won " .. amount .. ".\n")
+                            file.Append("ttt_jackpot_wins.txt", "[" .. os.date("%c", os.time()) .. "] " .. v:Nick() .. " (TRAITOR) won " .. amount .. ".\n")
                         elseif !istraitor then
                             ServerLog("[" .. os.date() .. "] " .. v:Nick() .. " (INNOCENT) won " .. amount .. ".")
-                            file.Append("ttt_jackpot_wins.txt", "[" .. os.time() .. "] " .. v:Nick() .. " (INNOCENT) won " .. amount .. ".\n")
+                            file.Append("ttt_jackpot_wins.txt", "[" .. os.date("%c", os.time()) .. "] " .. v:Nick() .. " (INNOCENT) won " .. amount .. ".\n")
                         end
                     end
                 end
